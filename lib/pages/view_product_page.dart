@@ -20,7 +20,7 @@ class _ViewProductPageState extends State<ViewProductPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: kIsWeb ? null : AppBar(
+      appBar: AppBar(
         title: const Text('Products'),
       ),
       body: Consumer<ProductProvider>(
@@ -40,40 +40,40 @@ class _ViewProductPageState extends State<ViewProductPage> {
                     return null;
                   },
                   items: [],
-                  onChanged: (value) {
-
-                  },
+                  onChanged: (value) {},
                 ),
               ),
-              provider.productList.isEmpty ?
-              const Expanded(child: Center(child: Text('No item found'),)) :
-              Expanded(
-                child: ListView.builder(
-                  itemCount: provider.productList.length,
-                  itemBuilder: (context, index) {
-                    final product = provider.productList[index];
-                    return ListTile(
-                      onTap: () => Navigator.pushNamed(
-                          context,
-                          ProductDetailsPage.routeName,
-                          arguments: product),
-                      leading: CachedNetworkImage(
-                        width: 75,
-                        imageUrl: product.thumbnailImageUrl,
-                        placeholder: (context, url) =>
-                            const Center(child: CircularProgressIndicator()),
-                        errorWidget: (context, url, error) {
-                          print(error.toString());
-                          return const Icon(Icons.error);
+              provider.productList.isEmpty
+                  ? const Expanded(
+                      child: Center(
+                      child: Text('No item found'),
+                    ))
+                  : Expanded(
+                      child: ListView.builder(
+                        itemCount: provider.productList.length,
+                        itemBuilder: (context, index) {
+                          final product = provider.productList[index];
+                          return ListTile(
+                            onTap: () => Navigator.pushNamed(
+                                context, ProductDetailsPage.routeName,
+                                arguments: product),
+                            leading: CachedNetworkImage(
+                              width: 75,
+                              imageUrl: product.thumbnailImageUrl,
+                              placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator()),
+                              errorWidget: (context, url, error) {
+                                print(error.toString());
+                                return const Icon(Icons.error);
+                              },
+                            ),
+                            title: Text(product.productName),
+                            subtitle: Text(product.category.categoryName),
+                            trailing: Text('Stock: ${product.stock}'),
+                          );
                         },
                       ),
-                      title: Text(product.productName),
-                      subtitle: Text(product.category.categoryName),
-                      trailing: Text('Stock: ${product.stock}'),
-                    );
-                  },
-                ),
-              ),
+                    ),
             ],
           );
         },

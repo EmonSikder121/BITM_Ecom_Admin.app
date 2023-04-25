@@ -1,6 +1,6 @@
 const String currencySymbol = '৳';
 //eta amar...don't use, use ur own key
-const serverKey = 'AAAAbhC8-yI:APA91bE6HRRfa_k8RSO0Z5_ZpNKLAXNflKTycSt8AOTLO-Yzf7_6GRSFMmNx4VY8C_yymQPKeuDITlimy83ft0n0Occ2aGWe9NL6lSpABrCm3atk26qm2lJCjxmcMu2aEydXheshpcRu';
+const serverKey = '';
 const cities = [
   'Dhaka',
   'Chittagong',
@@ -34,11 +34,3 @@ abstract class NotificationType {
   static const String user = 'New User';
 }
 
-class ScreenSizes {
-  static const double xs = 480.0;
-  static const double sm = 640.0;
-  static const double md = 768.0;
-  static const double lg = 1024.0;
-  static const double xl = 1280.0;
-  static const double xxl = 1536.0;
-}

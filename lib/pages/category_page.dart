@@ -11,33 +11,38 @@ class CategoryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Categories'),
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           showSingleTextInputDialog(
-            context: context,
-            title: 'Category',
-            positiveButtonText: 'ADD',
-            onSubmit: (value) {
-
-            }
-          );
+              context: context,
+              title: 'Category',
+              positiveButtonText: 'ADD',
+              onSubmit: (value) {
+                Provider.of<ProductProvider>(context, listen: false)
+                    .addNewCategory(value);
+              });
         },
         child: const Icon(Icons.add),
       ),
       body: Consumer<ProductProvider>(
         builder: (context, provider, child) {
-          return provider.categoryList.isEmpty ?
-          const Center(child: Text('No category found'),) :
-              ListView.builder(
-                itemCount: provider.categoryList.length,
-                itemBuilder: (context, index) {
-                  final catModel = provider.categoryList[index];
-                  return ListTile(
-                    title: Text(catModel.categoryName),
-                    trailing: Text('Total: ${catModel.productCount}'),
-                  );
-                },
-              );
+          return provider.categoryList.isEmpty
+              ? const Center(
+                  child: Text('No category found'),
+                )
+              : ListView.builder(
+                  itemCount: provider.categoryList.length,
+                  itemBuilder: (context, index) {
+                    final catModel = provider.categoryList[index];
+                    return ListTile(
+                      title: Text(catModel.categoryName),
+                      trailing: Text('Total: ${catModel.productCount}'),
+                    );
+                  },
+                );
         },
       ),
     );

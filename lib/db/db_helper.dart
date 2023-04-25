@@ -1,22 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+
 import '../models/category_model.dart';
-import '../models/order_constant_model.dart';
 import '../models/product_model.dart';
 import '../models/purchase_model.dart';
-import '../models/user_model.dart';
-import '../models/notification_model.dart';
-import '../models/order_model.dart';
 
 class DbHelper {
+  static const String collectionAdmin = 'Admins';
   static final _db = FirebaseFirestore.instance;
 
-  /*static Future<bool> doesUserExist(String uid) async {
-    final snapshot = await _db.collection(collectionUser).doc(uid).get();
-    return snapshot.exists;
-  }
-
   static Future<bool> isAdmin(String uid) async {
-    final snapshot = await _db.collection('Admins').doc(uid).get();
+    final snapshot = await _db.collection(collectionAdmin).doc(uid).get();
     return snapshot.exists;
   }
 
@@ -46,20 +39,32 @@ class DbHelper {
     return wb.commit();
   }
 
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllCategories() =>
+      _db.collection(collectionCategory).snapshots();
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProducts() =>
+      _db.collection(collectionProduct).snapshots();
+
+  /*
+  static Future<bool> doesUserExist(String uid) async {
+    final snapshot = await _db.collection(collectionUser).doc(uid).get();
+    return snapshot.exists;
+  }
+
+
+
   static Stream<DocumentSnapshot<Map<String, dynamic>>> getOrderConstants() =>
       _db
           .collection(collectionOrderConstant)
           .doc(documentOrderConstant)
           .snapshots();
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllCategories() =>
-      _db.collection(collectionCategory).snapshots();
+
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllUsers() =>
       _db.collection(collectionUser).snapshots();
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProducts() =>
-      _db.collection(collectionProduct).snapshots();
+
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllOrders() =>
       _db.collection(collectionOrder).snapshots();

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "720253245807",
+    "project_id": "bitm-ecommerce-34aac",
+    "storage_bucket": "bitm-ecommerce-34aac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:720253245807:android:50cbc791f50adf75b8309a",
+        "android_client_info": {
+          "package_name": "com.bitm.pencilbox.training.ecom_pb_bitm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "720253245807-s8fmb5n82j57f936uet1lag677rdt8v6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2T4sf2latV0qGV85kR8IhmNJJMmKqTbQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "720253245807-s8fmb5n82j57f936uet1lag677rdt8v6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

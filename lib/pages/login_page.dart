@@ -1,8 +1,8 @@
+import 'package:ecom_pb_bitm/auth/authservice.dart';
+import 'package:ecom_pb_bitm/pages/launcher_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-
-import '../auth/authservice.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = '/login';
@@ -21,6 +21,7 @@ class _LoginPageState extends State<LoginPage> {
   void initState() {
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,12 +38,11 @@ class _LoginPageState extends State<LoginPage> {
                   controller: _emailController,
                   keyboardType: TextInputType.emailAddress,
                   decoration: const InputDecoration(
-                    filled: true,
-                    prefixIcon: Icon(Icons.email),
-                    labelText: 'Email Address'
-                  ),
+                      filled: true,
+                      prefixIcon: Icon(Icons.email),
+                      labelText: 'Email Address'),
                   validator: (value) {
-                    if(value == null || value.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return 'Provide a valid email address';
                     }
                     return null;
@@ -55,12 +55,11 @@ class _LoginPageState extends State<LoginPage> {
                   controller: _passwordController,
                   obscureText: true,
                   decoration: const InputDecoration(
-                    filled: true,
-                    prefixIcon: Icon(Icons.lock),
-                    labelText: 'Password(at least 6 characters)'
-                  ),
+                      filled: true,
+                      prefixIcon: Icon(Icons.lock),
+                      labelText: 'Password(at least 6 characters)'),
                   validator: (value) {
-                    if(value == null || value.isEmpty) {
+                    if (value == null || value.isEmpty) {
                       return 'Provide a valid password';
                     }
                     return null;
@@ -73,18 +72,22 @@ class _LoginPageState extends State<LoginPage> {
               ),
               Row(
                 children: [
-                  const Text('Forgot password', style: TextStyle(fontSize: 18, color: Colors.red),),
+                  const Text(
+                    'Forgot password?',
+                    style: TextStyle(fontSize: 18, color: Colors.red),
+                  ),
                   TextButton(
-                    onPressed: () {
-
-                    },
+                    onPressed: () {},
                     child: const Text('Click Here'),
                   ),
                 ],
               ),
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Text(_errMsg, style: const TextStyle(fontSize: 18, color: Colors.red),),
+                child: Text(
+                  _errMsg,
+                  style: const TextStyle(fontSize: 18, color: Colors.red),
+                ),
               ),
             ],
           ),
@@ -101,13 +104,21 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   void _authenticate() async {
-    if(_formKey.currentState!.validate()) {
+    if (_formKey.currentState!.validate()) {
       EasyLoading.show(status: 'Please wait', dismissOnTap: false);
       final email = _emailController.text;
       final password = _passwordController.text;
       try {
-
-
+        final status = await AuthService.loginAdmin(email, password);
+        EasyLoading.dismiss();
+        if (status) {
+          Navigator.pushReplacementNamed(context, LauncherPage.routeName);
+        } else {
+          await AuthService.logout();
+          setState(() {
+            _errMsg = 'You are not an Admin. Please login with a Admin account';
+          });
+        }
       } on FirebaseAuthException catch (error) {
         EasyLoading.dismiss();
         setState(() {

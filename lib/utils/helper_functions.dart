@@ -9,11 +9,6 @@ showMsg(BuildContext context, String msg) =>
 getFormattedDate(DateTime dt, {String pattern = 'dd/MM/yyyy'}) =>
     DateFormat(pattern).format(dt);
 
-Axis getAxis(double width) {
-  return width > ScreenSizes.md ? Axis.horizontal :
-  Axis.vertical;
-}
-
 Future<bool> isConnectedToInternet() async {
   final result = await Connectivity().checkConnectivity();
   return result == ConnectivityResult.wifi ||
