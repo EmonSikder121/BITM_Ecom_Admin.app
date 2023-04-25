@@ -1,3 +1,4 @@
+import 'package:ecom_pb_bitm/db/db_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -39,6 +40,11 @@ class CategoryPage extends StatelessWidget {
                     final catModel = provider.categoryList[index];
                     return ListTile(
                       title: Text(catModel.categoryName),
+                      leading: IconButton(
+                        icon: const Icon(Icons.delete), onPressed: () {
+                          DbHelper.deleteCategory(catModel);
+                      },
+                      ),
                       trailing: Text('Total: ${catModel.productCount}'),
                     );
                   },

@@ -18,6 +18,7 @@ class ProductProvider extends ChangeNotifier {
     return DbHelper.addCategory(categoryModel);
   }
 
+
   Future<void> addNewProduct(
       ProductModel productModel, PurchaseModel purchaseModel) {
     return DbHelper.addNewProduct(productModel, purchaseModel);

@@ -19,6 +19,13 @@ class DbHelper {
     return doc.set(categoryModel.toMap());
   }
 
+
+  static Future<void> deleteCategory(CategoryModel categoryModel) async {
+    _db.collection(collectionCategory).doc(categoryModel.categoryId).delete();
+  }
+
+
+
   static Future<void> addNewProduct(
       ProductModel productModel, PurchaseModel purchaseModel) {
     final wb = _db.batch();

@@ -55,10 +55,10 @@ class _DashboardPageState extends State<DashboardPage> {
         itemBuilder: (context, index) {
           final model = dashboardModelList[index];
           if (model.title == 'Notification') {
-            final count = 0;
+            const count = 0;
             return DashboardItemView(
               model: dashboardModelList[index],
-              badge: BadgeView(
+              badge: const BadgeView(
                 count: count,
               ),
             );
