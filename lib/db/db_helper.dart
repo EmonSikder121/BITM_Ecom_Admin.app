@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../models/category_model.dart';
 import '../models/product_model.dart';
@@ -20,9 +21,15 @@ class DbHelper {
   }
 
 
+  // My Made
   static Future<void> deleteCategory(CategoryModel categoryModel) async {
     _db.collection(collectionCategory).doc(categoryModel.categoryId).delete();
   }
+
+
+
+  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllCategories() =>
+      _db.collection(collectionCategory).snapshots();
 
 
 
@@ -46,11 +53,33 @@ class DbHelper {
     return wb.commit();
   }
 
-  static Stream<QuerySnapshot<Map<String, dynamic>>> getAllCategories() =>
-      _db.collection(collectionCategory).snapshots();
+
+  // //My Made
+  // static Future deleteProduct(ProductModel productModel ) async {
+  //   final usercollection = FirebaseFirestore.instance.collection(collectionProduct);
+  //   final docRef = usercollection.doc(productModel.productId).delete();
+  // }
+  //
+  // static Future<void> removeImageFromUrl(productFieldImages ) async {
+  //   Reference ref = await FirebaseStorage.instance.refFromURL(productFieldImages);
+  //   await ref.delete();
+  // }
+
+
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllProducts() =>
       _db.collection(collectionProduct).snapshots();
+
+
+
+  //Query a single document from Firestore in Flutter **
+  // static Future<DocumentSnapshot<Map<String, dynamic>>> getProducts() =>
+  //     _db.collection(collectionProduct).doc('WwTqbH09vgkjADbfTMa4').get();
+
+
+
+
+
 
   /*
   static Future<bool> doesUserExist(String uid) async {

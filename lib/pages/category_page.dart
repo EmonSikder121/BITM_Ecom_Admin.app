@@ -42,7 +42,9 @@ class CategoryPage extends StatelessWidget {
                       title: Text(catModel.categoryName),
                       leading: IconButton(
                         icon: const Icon(Icons.delete), onPressed: () {
-                          DbHelper.deleteCategory(catModel);
+                        //My Made
+                        // DbHelper.deleteCategory(catModel);
+                        provider.DelateCategory(catModel);
                       },
                       ),
                       trailing: Text('Total: ${catModel.productCount}'),

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:ecom_pb_bitm/auth/authservice.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -19,10 +20,20 @@ class ProductProvider extends ChangeNotifier {
   }
 
 
+  //My Made
+  Future<void> DelateCategory(CategoryModel) async {
+    await DbHelper.deleteCategory(CategoryModel);
+    notifyListeners();
+  }
+
+
+
   Future<void> addNewProduct(
       ProductModel productModel, PurchaseModel purchaseModel) {
     return DbHelper.addNewProduct(productModel, purchaseModel);
   }
+
+
 
   getAllCategories() {
     DbHelper.getAllCategories().listen((snapshot) {
@@ -34,6 +45,8 @@ class ProductProvider extends ChangeNotifier {
     });
   }
 
+  // Sorting **
+
   getAllProducts() {
     DbHelper.getAllProducts().listen((snapshot) {
       productList = List.generate(snapshot.docs.length,
@@ -43,8 +56,7 @@ class ProductProvider extends ChangeNotifier {
   }
 
   Future<String> uploadImage(String thumbnailImageLocalPath) async {
-    final photoRef = FirebaseStorage.instance
-        .ref()
+    final photoRef = FirebaseStorage.instance.ref()
         .child('ProductImages/${DateTime.now().millisecondsSinceEpoch}');
     final uploadTask = photoRef.putFile(File(thumbnailImageLocalPath));
     final snapshot = await uploadTask.whenComplete(() => null);

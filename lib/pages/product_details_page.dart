@@ -140,9 +140,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
             },
             title: const Text('Featured'),
           ),
-          OutlinedButton(
+          const OutlinedButton(
             onPressed: null,
-            child: const Text('Notify Users'),
+            child: Text('Notify Users'),
           )
         ],
       ),
