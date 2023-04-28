@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ecom_pb_bitm/providers/product_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -30,6 +31,9 @@ class _ProductRepurchasePageState extends State<ProductRepurchasePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Re-purchase'),
+      ),
       body: Center(
         child: Form(
           key: _formKey,
@@ -129,7 +133,29 @@ class _ProductRepurchasePageState extends State<ProductRepurchasePage> {
 
     if(_formKey.currentState!.validate()) {
       EasyLoading.show(status: 'Please wait');
+      final model = PurchaseModel(
+        productId: productModel.productId,
+        purchasePrice: num.parse(_purchasePriceController.text),
+        purchaseQuantity: num.parse(_quantityController.text),
+        dateModel: DateModel(
+          timestamp: Timestamp.fromDate(purchaseDate!),
+          day: purchaseDate!.day,
+          month: purchaseDate!.month,
+          year: purchaseDate!.year,
+        ),
+      );
+      Provider.of<ProductProvider>(context, listen: false)
+      .repurchase(model, productModel)
+      .then((value) {
+        EasyLoading.dismiss();
+        showMsg(context, 'Repurchased successfully');
+        Navigator.pop(context);
+      })
+      .catchError((error) {
+        EasyLoading.dismiss();
+        showMsg(context, 'Repurchase failed!!!');
 
+      });
     }
   }
 }

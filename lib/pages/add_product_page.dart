@@ -68,6 +68,12 @@ class _AddProductPageState extends State<AddProductPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Product'),
+        actions: [
+          IconButton(
+            onPressed: _saveProduct,
+            icon: const Icon(Icons.done),
+          )
+        ],
       ),
       body: _buildForm(),
     );
@@ -106,8 +112,6 @@ class _AddProductPageState extends State<AddProductPage> {
                             fit: BoxFit.cover,
                           ),
                   ),
-
-
                   Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
                     children: [
@@ -136,7 +140,7 @@ class _AddProductPageState extends State<AddProductPage> {
                 DropdownButtonFormField<CategoryModel>(
               hint: const Text('Select Category'),
               value: categoryModel,
-              isExpanded: false,
+              isExpanded: true,
               validator: (value) {
                 if (value == null) {
                   return 'Please select a category';
@@ -147,7 +151,6 @@ class _AddProductPageState extends State<AddProductPage> {
                   .map((catModel) => DropdownMenuItem<CategoryModel>(
                         value: catModel,
                         child: Text(catModel.categoryName),
-                        // child: ElevatedButton(onPressed: () {}, child: Text(catModel.categoryName)),
                       ))
                   .toList(),
               onChanged: (value) {
@@ -299,10 +302,6 @@ class _AddProductPageState extends State<AddProductPage> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: ElevatedButton(onPressed: _saveProduct, child: const Text('Save Data')),
-          )
         ],
       ),
     );
@@ -334,16 +333,12 @@ class _AddProductPageState extends State<AddProductPage> {
     }
   }
 
-
   void _saveProduct() async {
-
-    //image validate **
     if (thumbnailImageLocalPath == null) {
       showMsg(context, 'Please select a product image');
       return;
     }
 
-    //Date validate **
     if (purchaseDate == null) {
       showMsg(context, 'Please select a purchase date');
       return;
@@ -356,13 +351,13 @@ class _AddProductPageState extends State<AddProductPage> {
         downloadUrl =
             await _productProvider.uploadImage(thumbnailImageLocalPath!);
         final productModel = ProductModel(
-          thumbnailImageUrl: downloadUrl,
           productName: _nameController.text,
           shortDescription: _shortDescriptionController.text,
           longDescription: _longDescriptionController.text,
           stock: num.parse(_quantityController.text),
           salePrice: num.parse(_salePriceController.text),
           category: categoryModel!,
+          thumbnailImageUrl: downloadUrl,
           productDiscount: num.parse(_discountController.text),
           additionalImages: [
             '',
@@ -388,8 +383,6 @@ class _AddProductPageState extends State<AddProductPage> {
         _resetFields();
         EasyLoading.dismiss();
         showMsg(context, 'Added');
-
-
       } catch (error) {
         showMsg(context, 'Something went wrong ${error.toString()}');
         EasyLoading.dismiss();

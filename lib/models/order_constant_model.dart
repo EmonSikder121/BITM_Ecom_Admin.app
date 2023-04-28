@@ -10,9 +10,9 @@ class OrderConstantModel{
   num deliveryCharge;
 
   OrderConstantModel({
-   this.discount=0,
-   this.vat=0,
-   this.deliveryCharge=0,
+   this.discount = 0,
+   this.vat = 0,
+   this.deliveryCharge = 0,
   });
 
   Map<String,dynamic> toMap(){

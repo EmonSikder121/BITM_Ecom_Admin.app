@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:ecom_pb_bitm/auth/authservice.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -12,28 +11,17 @@ import '../models/purchase_model.dart';
 class ProductProvider extends ChangeNotifier {
   List<CategoryModel> categoryList = [];
   List<ProductModel> productList = [];
-  List<PurchaseModel> purchaseList = [];
+  List<PurchaseModel> _purchaseList = [];
 
   Future<void> addNewCategory(String category) {
     final categoryModel = CategoryModel(categoryName: category);
     return DbHelper.addCategory(categoryModel);
   }
 
-
-  //My Made
-  Future<void> DelateCategory(CategoryModel) async {
-    await DbHelper.deleteCategory(CategoryModel);
-    notifyListeners();
-  }
-
-
-
   Future<void> addNewProduct(
       ProductModel productModel, PurchaseModel purchaseModel) {
     return DbHelper.addNewProduct(productModel, purchaseModel);
   }
-
-
 
   getAllCategories() {
     DbHelper.getAllCategories().listen((snapshot) {
@@ -45,8 +33,6 @@ class ProductProvider extends ChangeNotifier {
     });
   }
 
-  // Sorting **
-
   getAllProducts() {
     DbHelper.getAllProducts().listen((snapshot) {
       productList = List.generate(snapshot.docs.length,
@@ -55,27 +41,44 @@ class ProductProvider extends ChangeNotifier {
     });
   }
 
+  getAllPurchase() {
+    DbHelper.getAllPurchases().listen((snapshot) {
+      _purchaseList = List.generate(snapshot.docs.length, (index) =>
+          PurchaseModel.fromMap(snapshot.docs[index].data()));
+      notifyListeners();
+    });
+  }
+
+  List<PurchaseModel> getPurchaseByProductId(String productId) {
+    List<PurchaseModel> list = [];
+    list = _purchaseList.where((model) => model.productId == productId).toList();
+    return list;
+  }
+
+  Future<void> repurchase(PurchaseModel purchaseModel, ProductModel productModel) {
+    return DbHelper.repurchase(purchaseModel, productModel);
+  }
+
   Future<String> uploadImage(String thumbnailImageLocalPath) async {
-    final photoRef = FirebaseStorage.instance.ref()
+    final photoRef = FirebaseStorage.instance
+        .ref()
         .child('ProductImages/${DateTime.now().millisecondsSinceEpoch}');
     final uploadTask = photoRef.putFile(File(thumbnailImageLocalPath));
     final snapshot = await uploadTask.whenComplete(() => null);
     return snapshot.ref.getDownloadURL();
   }
 
+  ProductModel getProductById(String productId) {
+    return productList.firstWhere((element) => element.productId == productId);
+  }
+
+  Future<void> updateProductField(String productId, String field, dynamic value) {
+    return DbHelper.updateProductField(productId, {field : value});
+  }
+
   /*
   List<CategoryModel> getCategoryListForFiltering() {
     return [CategoryModel(categoryName: 'All'), ... categoryList];
-  }
-
-
-
-  getAllPurchase() {
-    DbHelper.getAllPurchases().listen((snapshot) {
-      purchaseList = List.generate(snapshot.docs.length, (index) =>
-          PurchaseModel.fromMap(snapshot.docs[index].data()));
-      notifyListeners();
-    });
   }
 
   getAllProductsByCategory(CategoryModel categoryModel) {
@@ -118,9 +121,5 @@ class ProductProvider extends ChangeNotifier {
     return DbHelper.updateProductField(productId, {field : value});
   }
 
-  List<PurchaseModel> getPurchaseByProductId(String productId) {
-    List<PurchaseModel> list = [];
-    list = purchaseList.where((model) => model.productId == productId).toList();
-    return list;
-  }*/
+  */
 }

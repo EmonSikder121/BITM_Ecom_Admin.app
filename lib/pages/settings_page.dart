@@ -1,4 +1,6 @@
 
+import 'package:ecom_pb_bitm/models/order_constant_model.dart';
+import 'package:ecom_pb_bitm/utils/helper_functions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
@@ -40,6 +42,9 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Order Settings'),
+      ),
       body: Center(
         child: Form(
           key: _formKey,
@@ -120,7 +125,20 @@ class _SettingsPageState extends State<SettingsPage> {
   void _saveInfo() {
     if(_formKey.currentState!.validate()) {
       EasyLoading.show(status: 'Updating..');
-
+      final model = OrderConstantModel(
+        discount: num.parse(_discountController.text),
+        vat: num.parse(_vatController.text),
+        deliveryCharge: num.parse(_deliveryChargeController.text),
+      );
+      orderProvider.updateOrderConstants(model)
+          .then((value) {
+            EasyLoading.dismiss();
+            showMsg(context, 'Updated');
+      })
+          .catchError((error) {
+        EasyLoading.dismiss();
+        showMsg(context, 'Failed to update');
+      });
     }
   }
 }

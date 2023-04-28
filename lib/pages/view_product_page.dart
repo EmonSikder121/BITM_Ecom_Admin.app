@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:ecom_pb_bitm/db/db_helper.dart';
-import 'package:ecom_pb_bitm/models/product_model.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -44,19 +43,20 @@ class _ViewProductPageState extends State<ViewProductPage> {
                   onChanged: (value) {},
                 ),
               ),
-              if (provider.productList.isEmpty) const Expanded(
+              provider.productList.isEmpty
+                  ? const Expanded(
                       child: Center(
                       child: Text('No item found'),
-                    )) else Expanded(
+                    ))
+                  : Expanded(
                       child: ListView.builder(
                         itemCount: provider.productList.length,
                         itemBuilder: (context, index) {
                           final product = provider.productList[index];
                           return ListTile(
-
                             onTap: () => Navigator.pushNamed(
                                 context, ProductDetailsPage.routeName,
-                                arguments: product),
+                                arguments: product.productId),
                             leading: CachedNetworkImage(
                               width: 75,
                               imageUrl: product.thumbnailImageUrl,
@@ -70,11 +70,6 @@ class _ViewProductPageState extends State<ViewProductPage> {
                             title: Text(product.productName),
                             subtitle: Text(product.category.categoryName),
                             trailing: Text('Stock: ${product.stock}'),
-                            // trailing: IconButton(onPressed: () {
-                            //   DbHelper.deleteProduct(product).then((value) => null);
-                            //   DbHelper.removeImageFromUrl(product.thumbnailImageUrl).then((value) => null);
-                            // }, icon: Icon(Icons.delete)),
-
                           );
                         },
                       ),

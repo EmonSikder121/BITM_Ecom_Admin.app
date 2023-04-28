@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:ecom_pb_bitm/models/purchase_model.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
@@ -28,8 +29,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
 
   @override
   void didChangeDependencies() {
-    productProvider = Provider.of<ProductProvider>(context, listen: false);
-    productModel = ModalRoute.of(context)!.settings.arguments as ProductModel;
+    productProvider = Provider.of<ProductProvider>(context);
+    final id = ModalRoute.of(context)!.settings.arguments as String;
+    productModel = productProvider.getProductById(id);
     super.didChangeDependencies();
   }
 
@@ -124,25 +126,28 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
           ListTile(
             title: Text('Sale Price: $currencySymbol${productModel.salePrice}'),
-            subtitle: Text('Stock: ${productModel.stock}'),
+            subtitle: Text('Stock: ${productModel.stock}', style: const TextStyle(fontSize: 20),),
           ),
           SwitchListTile(
             value: productModel.available,
             onChanged: (value) {
-
+              /*setState(() {
+                productModel.available = !productModel.available;
+              });*/
+              productProvider.updateProductField(productModel.productId!, productFieldAvailable, value);
             },
             title: const Text('Available'),
           ),
           SwitchListTile(
             value: productModel.featured,
             onChanged: (value) {
-
+              productProvider.updateProductField(productModel.productId!, productFieldFeatured, value);
             },
             title: const Text('Featured'),
           ),
-          const OutlinedButton(
+          OutlinedButton(
             onPressed: null,
-            child: Text('Notify Users'),
+            child: const Text('Notify Users'),
           )
         ],
       ),
@@ -150,10 +155,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   void _showPurchaseList() {
+
     showModalBottomSheet(
         context: context,
         builder: (context) {
-          final purchaseList = [];
+          final purchaseList = productProvider.getPurchaseByProductId(productModel.productId!);
           return Container(
             margin: const EdgeInsets.all(20),
             child: ListView.builder(

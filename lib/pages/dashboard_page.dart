@@ -8,6 +8,7 @@ import 'package:provider/provider.dart';
 import '../customwidgets/badge_view.dart';
 import '../customwidgets/dashboard_item_view.dart';
 import '../models/dashboard_model.dart';
+import '../providers/order_provider.dart';
 import '../providers/product_provider.dart';
 
 class DashboardPage extends StatefulWidget {
@@ -24,9 +25,10 @@ class _DashboardPageState extends State<DashboardPage> {
   Widget build(BuildContext context) {
     Provider.of<ProductProvider>(context, listen: false).getAllCategories();
     Provider.of<ProductProvider>(context, listen: false).getAllProducts();
-    /*
-    Provider.of<ProductProvider>(context, listen: false).getAllPurchase();
     Provider.of<OrderProvider>(context, listen: false).getOrderConstants();
+    Provider.of<ProductProvider>(context, listen: false).getAllPurchase();
+
+    /*
     Provider.of<OrderProvider>(context, listen: false).getOrders();
     Provider.of<UserProvider>(context, listen: false).getAllUsers();
     Provider.of<NotificationProvider>(context, listen: false)
@@ -55,10 +57,10 @@ class _DashboardPageState extends State<DashboardPage> {
         itemBuilder: (context, index) {
           final model = dashboardModelList[index];
           if (model.title == 'Notification') {
-            const count = 0;
+            final count = 0;
             return DashboardItemView(
               model: dashboardModelList[index],
-              badge: const BadgeView(
+              badge: BadgeView(
                 count: count,
               ),
             );
