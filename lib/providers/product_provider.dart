@@ -76,6 +76,11 @@ class ProductProvider extends ChangeNotifier {
     return DbHelper.updateProductField(productId, {field : value});
   }
 
+
+  Future<void> deleteImage(String downloadUrl) {
+    return FirebaseStorage.instance.refFromURL(downloadUrl).delete();
+  }
+
   /*
   List<CategoryModel> getCategoryListForFiltering() {
     return [CategoryModel(categoryName: 'All'), ... categoryList];
@@ -109,9 +114,7 @@ class ProductProvider extends ChangeNotifier {
 
 
 
-  Future<void> deleteImage(String downloadUrl) {
-    return FirebaseStorage.instance.refFromURL(downloadUrl).delete();
-  }
+
 
   Future<void> repurchase(PurchaseModel purchaseModel, ProductModel productModel) {
     return DbHelper.repurchase(purchaseModel, productModel);
