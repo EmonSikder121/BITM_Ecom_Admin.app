@@ -7,7 +7,7 @@ class UserProvider extends ChangeNotifier {
 
   List<UserModel> userList = [];
 
-  /*Future<bool> doesUserExist(String uid) => DbHelper.doesUserExist(uid);
+  Future<bool> doesUserExist(String uid) => DbHelper.doesUserExist(uid);
 
   getAllUsers() {
     DbHelper.getAllUsers().listen((snapshot) {
@@ -15,5 +15,5 @@ class UserProvider extends ChangeNotifier {
           (index) => UserModel.fromMap(snapshot.docs[index].data()));
       notifyListeners();
     });
-  }*/
+  }
 }

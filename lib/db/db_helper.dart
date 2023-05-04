@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../models/category_model.dart';
+import '../models/notification_model.dart';
 import '../models/order_constant_model.dart';
+import '../models/order_model.dart';
 import '../models/product_model.dart';
 import '../models/purchase_model.dart';
+import '../models/user_model.dart';
 
 class DbHelper {
   static const String collectionAdmin = 'Admins';
@@ -93,7 +96,6 @@ class DbHelper {
     return _db.collection(collectionProduct).doc(productId).update(map);
   }
 
-  /*
   static Future<bool> doesUserExist(String uid) async {
     final snapshot = await _db.collection(collectionUser).doc(uid).get();
     return snapshot.exists;
@@ -144,5 +146,5 @@ class DbHelper {
   }
 
   static Stream<QuerySnapshot<Map<String, dynamic>>> getAllNotifications() =>
-      _db.collection(collectionNotification).snapshots();*/
+      _db.collection(collectionNotification).snapshots();
 }

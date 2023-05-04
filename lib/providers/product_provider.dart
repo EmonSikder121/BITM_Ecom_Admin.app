@@ -76,7 +76,6 @@ class ProductProvider extends ChangeNotifier {
     return DbHelper.updateProductField(productId, {field : value});
   }
 
-
   Future<void> deleteImage(String downloadUrl) {
     return FirebaseStorage.instance.refFromURL(downloadUrl).delete();
   }

@@ -1,28 +1,27 @@
 import 'user_model.dart';
 
 const String collectionRating = 'Rating';
-
 const String ratingFieldId = 'ratingId';
-const String ratingFieldUserModel = 'userModel';
+const String ratingFieldUserId = 'userId';
 const String ratingFieldProductId = 'productId';
 const String ratingFieldRating = 'rating';
 
 class RatingModel {
   String ratingId;
-  UserModel userModel;
+  String userId;
   String productId;
   num rating;
 
   RatingModel(
       {required this.ratingId,
-      required this.userModel,
+      required this.userId,
       required this.productId,
       required this.rating});
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       ratingFieldId: ratingId,
-      ratingFieldUserModel: userModel.toMap(),
+      ratingFieldUserId: userId,
       ratingFieldProductId: productId,
       ratingFieldRating: rating,
     };
@@ -30,7 +29,7 @@ class RatingModel {
 
   factory RatingModel.fromMap(Map<String, dynamic> map) => RatingModel(
         ratingId: map[ratingFieldId],
-        userModel: UserModel.fromMap(map[ratingFieldUserModel]),
+        userId: map[ratingFieldUserId],
         productId: map[ratingFieldProductId],
         rating: map[ratingFieldRating],
       );

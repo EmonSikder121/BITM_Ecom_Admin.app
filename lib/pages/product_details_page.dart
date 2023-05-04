@@ -38,11 +38,9 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: kIsWeb
-          ? null
-          : AppBar(
-              title: Text(productModel.productName),
-            ),
+      appBar: kIsWeb ? null : AppBar(
+        title: Text(productModel.productName),
+      ),
       body: ListView(
         children: [
           CachedNetworkImage(
@@ -128,10 +126,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
           ),
           ListTile(
             title: Text('Sale Price: $currencySymbol${productModel.salePrice}'),
-            subtitle: Text(
-              'Stock: ${productModel.stock}',
-              style: const TextStyle(fontSize: 20),
-            ),
+            subtitle: Text('Stock: ${productModel.stock}', style: const TextStyle(fontSize: 20),),
           ),
           SwitchListTile(
             value: productModel.available,
@@ -139,16 +134,14 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               /*setState(() {
                 productModel.available = !productModel.available;
               });*/
-              productProvider.updateProductField(
-                  productModel.productId!, productFieldAvailable, value);
+              productProvider.updateProductField(productModel.productId!, productFieldAvailable, value);
             },
             title: const Text('Available'),
           ),
           SwitchListTile(
             value: productModel.featured,
             onChanged: (value) {
-              productProvider.updateProductField(
-                  productModel.productId!, productFieldFeatured, value);
+              productProvider.updateProductField(productModel.productId!, productFieldFeatured, value);
             },
             title: const Text('Featured'),
           ),
@@ -162,11 +155,11 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
   }
 
   void _showPurchaseList() {
+
     showModalBottomSheet(
         context: context,
         builder: (context) {
-          final purchaseList =
-              productProvider.getPurchaseByProductId(productModel.productId!);
+          final purchaseList = productProvider.getPurchaseByProductId(productModel.productId!);
           return Container(
             margin: const EdgeInsets.all(20),
             child: ListView.builder(
@@ -195,13 +188,10 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
     if (selectedFile != null) {
       EasyLoading.show(status: 'Please wait');
       try {
-        final downlodeUrl =
-            await productProvider.uploadImage(selectedFile.path);
-        productModel.additionalImages[index] = downlodeUrl;
-        await productProvider.updateProductField(productModel.productId!,
-            productFieldImages, productModel.additionalImages);
+        final downloadUrl = await productProvider.uploadImage(selectedFile.path);
+        productModel.additionalImages[index] = downloadUrl;
+        await productProvider.updateProductField(productModel.productId!, productFieldImages, productModel.additionalImages);
         EasyLoading.dismiss();
-        showMsg(context, 'Uploded');
       } catch (error) {
         EasyLoading.dismiss();
         if (mounted) showMsg(context, 'Upload failed');
@@ -237,10 +227,7 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
                     try {
                       await productProvider.deleteImage(url);
                       productModel.additionalImages[index] = '';
-                      await productProvider.updateProductField(
-                          productModel.productId!,
-                          productFieldImages,
-                          productModel.additionalImages);
+                      await productProvider.updateProductField(productModel.productId!, productFieldImages, productModel.additionalImages);
                       EasyLoading.dismiss();
                     } catch (error) {
                       EasyLoading.dismiss();
@@ -251,30 +238,4 @@ class _ProductDetailsPageState extends State<ProductDetailsPage> {
               ],
             ));
   }
-
-/*void _notifyUser() async {
-    final url = 'https://fcm.googleapis.com/fcm/send';
-    final header = {
-      'Content-Type': 'application/json',
-      'Authorization': 'key=$serverKey',
-    };
-    final body = {
-      "to": "/topics/promo",
-      "notification": {
-        "title": "New arrival!!!",
-        "body": "Checkout this new Product ${productModel.productName}"
-      },
-      "data": {"key": "product", "value": productModel.productId}
-    };
-    try {
-      final response = await http.post(
-        Uri.parse(url),
-        headers: header,
-        body: json.encode(body),
-      );
-
-    } catch (error) {
-      print(error.toString());
-    }
-  }*/
 }

@@ -23,7 +23,7 @@ class OrderProvider extends ChangeNotifier {
     return DbHelper.updateOrderConstants(model);
   }
 
-  /*OrderModel getOrderById(String id) {
+  OrderModel getOrderById(String id) {
     return orderList.firstWhere((element) => element.orderId == id);
   }
 
@@ -41,5 +41,5 @@ class OrderProvider extends ChangeNotifier {
 
   Future<void> updateOrderStatus(String orderId, String status) {
     return DbHelper.updateOrderStatus(orderId, status);
-  }*/
+  }
 }

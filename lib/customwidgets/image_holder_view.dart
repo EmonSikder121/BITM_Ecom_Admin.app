@@ -5,7 +5,10 @@ class ImageHolderView extends StatelessWidget {
   final Widget child;
   final String url;
   final VoidCallback onImagePressed;
-  const ImageHolderView({Key? key, required this.child, this.url = '', required this.onImagePressed}) : super(key: key);
+  const ImageHolderView({
+    Key? key,
+    required this.child, this.url = '',
+    required this.onImagePressed}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

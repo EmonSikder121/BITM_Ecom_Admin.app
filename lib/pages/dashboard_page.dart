@@ -8,8 +8,10 @@ import 'package:provider/provider.dart';
 import '../customwidgets/badge_view.dart';
 import '../customwidgets/dashboard_item_view.dart';
 import '../models/dashboard_model.dart';
+import '../providers/notification_provider.dart';
 import '../providers/order_provider.dart';
 import '../providers/product_provider.dart';
+import '../providers/user_provider.dart';
 
 class DashboardPage extends StatefulWidget {
   static const String routeName = '/dashboard';
@@ -27,12 +29,10 @@ class _DashboardPageState extends State<DashboardPage> {
     Provider.of<ProductProvider>(context, listen: false).getAllProducts();
     Provider.of<OrderProvider>(context, listen: false).getOrderConstants();
     Provider.of<ProductProvider>(context, listen: false).getAllPurchase();
-
-    /*
     Provider.of<OrderProvider>(context, listen: false).getOrders();
     Provider.of<UserProvider>(context, listen: false).getAllUsers();
     Provider.of<NotificationProvider>(context, listen: false)
-        .getAllNotifications();*/
+        .getAllNotifications();
     return Scaffold(
       backgroundColor: CupertinoColors.systemGrey5,
       appBar: AppBar(
@@ -57,7 +57,7 @@ class _DashboardPageState extends State<DashboardPage> {
         itemBuilder: (context, index) {
           final model = dashboardModelList[index];
           if (model.title == 'Notification') {
-            final count = 0;
+            final count = context.read<NotificationProvider>().totalUnreadMessage;
             return DashboardItemView(
               model: dashboardModelList[index],
               badge: BadgeView(

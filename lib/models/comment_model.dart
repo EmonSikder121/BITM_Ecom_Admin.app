@@ -10,7 +10,7 @@ const String commentFieldDate = 'date';
 const String commentFieldApproved = 'approved';
 
 class CommentModel {
-  String commentId;
+  num commentId;
   UserModel userModel;
   String productId;
   String comment;
